@@ -3,8 +3,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private GameObject bulletPrefab;
-
     [SerializeField] private InputActionReference movementAction;
     [SerializeField] private InputActionReference boostAction;
     [SerializeField] private InputActionReference fireAction;
@@ -42,11 +40,13 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
-        var direction     = transform.forward.normalized;
-        var spawnPosition = transform.position + direction;
+        var ray = new Ray(transform.position, transform.forward);
 
-        var bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.LookRotation(direction));
-
-        bullet.GetComponent<Rigidbody>().linearVelocity = direction * 10.0f;
+        if (!Physics.Raycast(ray, out var hit, 45f)) return;
+        
+        if (hit.transform.CompareTag("Enemy"))
+        {
+            Destroy(hit.transform.gameObject);
+        }
     }
 }

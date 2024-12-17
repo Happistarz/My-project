@@ -6,33 +6,36 @@ public class CameraPlayerFollow : MonoBehaviour
     [SerializeField] private InputActionReference lookAction;
 
     [SerializeField] private Transform player;
-    [SerializeField] private Vector3   offset;
     [SerializeField] private float     Sensitivity = 0.1f;
 
-    private const float SmoothSpeed = 0.125f;
-
-    private float yaw;
-    private float pitch;
-
+    private float _pitch = 0;
     private void Start()
     {
         lookAction.action.Enable();
     }
 
     // Update is called once per frame
-    private void Update()
+    private void LateUpdate()
     {
-        var desiredPosition  = player.position + offset;
-        var smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, SmoothSpeed);
-        transform.position = smoothedPosition;
+        var look = lookAction.action.ReadValue<Vector2>();
 
-        var look = lookAction.action.ReadValue<Vector2>() * Sensitivity;
-
-        yaw   += look.x;
-        pitch -= look.y;
-        pitch =  Mathf.Clamp(pitch, -90, 90);
-
-        transform.rotation = Quaternion.Euler(pitch, yaw, 0);
-        player.rotation    = Quaternion.Euler(0,     yaw, 0);
+        // _yaw   += look.x * Sensitivity;
+        // _pitch -= look.y * Sensitivity;
+        // _pitch =  Mathf.Clamp(_pitch, -45, 45);
+        //
+        // Quaternion rotation = Quaternion.Euler(_pitch, _yaw, 0);
+        // transform.position = player.position + rotation * offset;
+        // transform.LookAt(player.position);
+        // transform.rotation = Quaternion.Euler(_pitch, _yaw, 0);
+        // player.rotation    = Quaternion.Euler(0,      _yaw, 0);
+        
+        float yaw = look.x * Sensitivity;
+        float pitch = look.y * Sensitivity;
+        
+        _pitch -= pitch;
+        _pitch = Mathf.Clamp(_pitch, -45, 45);
+        
+        transform.localRotation = Quaternion.Euler(_pitch, 0, 0);
+        player.Rotate(Vector3.up, yaw);
     }
 }

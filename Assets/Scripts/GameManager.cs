@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private Transform  beacon;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
             var z = Random.Range(-10, 10);
 
             var instance = Instantiate(enemyPrefab, new Vector3(x, 1, z), Quaternion.identity);
-            instance.GetComponent<EnemyController>().target = player.transform;
+            instance.GetComponent<EnemyController>().target = beacon;
             yield return wait;
         }
     }
