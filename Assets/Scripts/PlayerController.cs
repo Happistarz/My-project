@@ -33,9 +33,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        var movement       = movementAction.action.ReadValue<Vector2>();
-        var forward = transform.forward * movement.y;
-        var side   = transform.right   * movement.x;
-        _rigidbody.linearVelocity = (forward + side).normalized * (GameManager.Instance.MovementSpeed + _boostSpeed);
+        var movement = movementAction.action.ReadValue<Vector2>();
+        var forward  = transform.forward * movement.y;
+        var side     = transform.right   * movement.x;
+        _rigidbody.linearVelocity = (forward + side).normalized * (GameManager.Instance.movementSpeed + _boostSpeed);
     }
 }

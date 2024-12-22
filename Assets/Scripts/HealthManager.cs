@@ -9,7 +9,7 @@ public class HealthManager : MonoBehaviour
     private Canvas        _canvas;
     private Camera        _mainCamera;
 
-    public Vector3 offset = new Vector3(0, 1, 0);
+    public Vector3 offset = new(0, 1, 0);
 
     private RectTransform _healthBar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

@@ -33,7 +33,7 @@ public class GunController : MonoBehaviour
         Ammo--;
         
         var ray = new Ray(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out var hit, 45f) && hit.transform.CompareTag("Enemy"))
+        if (Physics.Raycast(ray, out var hit, 45f) && hit.transform.CompareTag(Constants.ENEMY_TAG))
         {
             hit.transform.GetComponent<HealthManager>().TakeDamage(GameManager.Instance.DamageToEnemy);
         }

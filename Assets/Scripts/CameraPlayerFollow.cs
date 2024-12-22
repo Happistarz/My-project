@@ -1,40 +1,32 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class CameraPlayerFollow : MonoBehaviour
 {
     [SerializeField] private InputActionReference lookAction;
 
     [SerializeField] private Transform player;
-    [SerializeField] private float     Sensitivity = 0.1f;
+    [SerializeField] private float     sensitivity = 0.1f;
 
     private float _pitch = 0;
+
     private void Start()
     {
         lookAction.action.Enable();
     }
 
-    // Update is called once per frame
+    // LateUpdate is called once per frame after all Update functions have been called
     private void LateUpdate()
     {
         var look = lookAction.action.ReadValue<Vector2>();
 
-        // _yaw   += look.x * Sensitivity;
-        // _pitch -= look.y * Sensitivity;
-        // _pitch =  Mathf.Clamp(_pitch, -45, 45);
-        //
-        // Quaternion rotation = Quaternion.Euler(_pitch, _yaw, 0);
-        // transform.position = player.position + rotation * offset;
-        // transform.LookAt(player.position);
-        // transform.rotation = Quaternion.Euler(_pitch, _yaw, 0);
-        // player.rotation    = Quaternion.Euler(0,      _yaw, 0);
-        
-        float yaw = look.x * Sensitivity;
-        float pitch = look.y * Sensitivity;
-        
+        var yaw   = look.x * sensitivity;
+        var pitch = look.y * sensitivity;
+
         _pitch -= pitch;
-        _pitch = Mathf.Clamp(_pitch, -45, 45);
-        
+        _pitch =  Mathf.Clamp(_pitch, -45, 45);
+
         transform.localRotation = Quaternion.Euler(_pitch, 0, 0);
         player.Rotate(Vector3.up, yaw);
     }
