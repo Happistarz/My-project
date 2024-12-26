@@ -1,33 +1,29 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private InputActionReference movementAction;
     [SerializeField] private InputActionReference boostAction;
-    [SerializeField] private InputActionReference fireAction;
+    
+    [SerializeField] private GunController gunController;
 
     private Rigidbody _rigidbody;
 
     private float _pitch;
     private float _boostSpeed;
     
-    private GunController _gunController;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _gunController = GetComponent<GunController>();
 
         movementAction.action.Enable();
         boostAction.action.Enable();
-        fireAction.action.Enable();
 
         boostAction.action.performed += _ => _boostSpeed = GameManager.Instance.BoostSpeed;
         boostAction.action.canceled  += _ => _boostSpeed = 0.0f;
-
-        fireAction.action.performed += _ => _gunController.Shoot();
     }
 
     // Update is called once per frame

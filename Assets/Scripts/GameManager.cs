@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
+    
     private void Awake()
     {
         if (Instance == null)
@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    private EnemyFactory _enemyFactory;
+
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform  beacon;
@@ -30,22 +32,20 @@ public class GameManager : MonoBehaviour
 
     public const int GameDuration = 20 * 60; // 20 minutes
     public       int GameTime { get; private set; } = 0;
-    
-    [Header("Player Stats")]
 
-    [SerializeField] public float criticalChance = 0.1f;
+    [Header("Player Stats")] [SerializeField]
+    public float criticalChance = 0.1f;
 
-    [SerializeField] public float fireRate = 0.1f;
-    
+    [SerializeField] public float fireRate = 0.6f;
+
     [SerializeField] public float movementSpeed = 5.0f;
-    
+
     [SerializeField] public float beaconOverload = 0.1f;
-    
-    public float ReloadTime       { get; private set; } = 1.0f;
-    
-    public float BoostSpeed    { get; private set; } = 5.0f;
-    
-    public float Damage           { get; private set; } = 10.0f;
+
+    public float ReloadTime { get; private set; } = 1.0f;
+    public float BoostSpeed { get; private set; } = 5.0f;
+    public float Damage     { get; private set; } = 10.0f;
+    public float SpawnRate  { get; set; }         = Constants.ENEMY_SPAWN_RATE;
 
     public float DamageToEnemy
     {
@@ -62,35 +62,35 @@ public class GameManager : MonoBehaviour
     }
 
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        StartCoroutine(SpawnEnemy());
+        _enemyFactory = GetComponent<EnemyFactory>();
+        
+        // StartCoroutine(SpawnEnemy());
         StartCoroutine(Timer());
 
         SetCursor(false);
-        
-        ShuffleCards();
+
+        // ShuffleCards();
     }
 
     private IEnumerator SpawnEnemy()
     {
-        var wait = new WaitForSeconds(5);
+        var wait = new WaitForSeconds(Constants.ENEMY_SPAWN_RATE);
         while (true && GameTime < GameDuration)
         {
             var x = Random.Range(-10, 10);
             var z = Random.Range(-10, 10);
 
-            var instance = Instantiate(enemyPrefab, new Vector3(x, 1, z), Quaternion.identity);
-            instance.GetComponent<EnemyController>().target = beacon;
+            _enemyFactory.SpawnEnemy(new Vector3(x, 1, z));
             yield return wait;
         }
     }
-    
+
     private IEnumerator Timer()
     {
-        var wait = new WaitForSeconds(Constants.ENEMY_SPAWN_RATE);
+        var wait = new WaitForSeconds(1);
         while (GameTime < GameDuration)
         {
             GameTime++;
@@ -105,14 +105,15 @@ public class GameManager : MonoBehaviour
         {
             var type  = (CardStatController.CardStatType)Random.Range(0, (int)CardStatController.CardStatType.LENGTH);
             var value = Random.Range(1, 10);
-            
+
             t.GetComponent<CardStatController>().Init(type, value);
             t.SetActive(true);
+            Time.timeScale = 0;
         }
-        
+
         SetCursor(true);
     }
-    
+
     public void ApplyCard(CardStatController.CardStatType _type, float _value)
     {
         switch (_type)
@@ -132,18 +133,19 @@ public class GameManager : MonoBehaviour
             default:
                 throw new System.ArgumentOutOfRangeException();
         }
-        
+
         foreach (var t in cards)
         {
             t.SetActive(false);
         }
-        
+
         SetCursor(false);
+        Time.timeScale = 1;
     }
-    
+
     public static void SetCursor(bool _visible)
     {
-        Cursor.visible = _visible;
+        Cursor.visible   = _visible;
         Cursor.lockState = _visible ? CursorLockMode.None : CursorLockMode.Locked;
     }
 }

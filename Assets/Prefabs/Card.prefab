@@ -445,9 +445,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1291458430317217497}
+        - m_Target: {fileID: 6269040882936968772}
           m_TargetAssemblyTypeName: CardStatController, Assembly-CSharp
-          m_MethodName: OnPointerClick
+          m_MethodName: 
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

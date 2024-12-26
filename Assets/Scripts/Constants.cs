@@ -16,6 +16,11 @@ public class Constants : MonoBehaviour
     public static readonly float MOVEMENTSPEED_MULTIPLIER = 2.0f;
     public static readonly float BEACON_MULTIPLIER = 2.0f;
     
-    public static readonly float ENEMY_SPAWN_RATE = 1.0f;
+    public static readonly float ENEMY_SPAWN_RATE = 5.0f;
     public static readonly float ENEMY_SPAWN_RATE_DECREASE = 0.1f;
+    
+    public static readonly string CRITICAL_ICON = "critical";
+    public static readonly string ATTACK_SPEED_ICON = "attack_speed";
+    public static readonly string MOVEMENT_SPEED_ICON = "move_speed";
+    public static readonly string BEACON_ICON = "beacon";
 }

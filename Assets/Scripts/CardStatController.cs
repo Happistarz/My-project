@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class CardStatController : MonoBehaviour
+public class CardStatController : MonoBehaviour, IPointerClickHandler
 {
     public enum CardStatType
     {
@@ -37,25 +37,25 @@ public class CardStatController : MonoBehaviour
 
                 image.color      = Constants.CRITICAL_COLOR;
                 titleText.text   = "Critical";
-                iconImage.sprite = Resources.Load<Sprite>("critical");
+                iconImage.sprite = Resources.Load<Sprite>(Constants.CRITICAL_ICON);
                 break;
             case CardStatType.ATTACK_SPEED:
 
                 image.color      = Constants.ATTACKSPEED_COLOR;
                 titleText.text   = "Attack Speed";
-                iconImage.sprite = Resources.Load<Sprite>("attack_speed");
+                iconImage.sprite = Resources.Load<Sprite>(Constants.ATTACK_SPEED_ICON);
                 break;
             case CardStatType.MOVEMENT_SPEED:
 
                 image.color      = Constants.MOVEMENTSPEED_COLOR;
                 titleText.text   = "Movement Speed";
-                iconImage.sprite = Resources.Load<Sprite>("move_speed");
+                iconImage.sprite = Resources.Load<Sprite>(Constants.MOVEMENT_SPEED_ICON);
                 break;
             case CardStatType.BEACON:
 
                 image.color      = Constants.BEACON_COLOR;
                 titleText.text   = "Beacon";
-                iconImage.sprite = Resources.Load<Sprite>("beacon");
+                iconImage.sprite = Resources.Load<Sprite>(Constants.BEACON_ICON);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -68,8 +68,16 @@ public class CardStatController : MonoBehaviour
         value = _value;
     }
 
-    public void OnPointerClick()
+    public void OnPointerClick(PointerEventData _eventData)
     {
+        // if the event pointer position is not on the card, return
+        if (!RectTransformUtility.RectangleContainsScreenPoint((RectTransform) transform, _eventData.position))
+            return;
+        
+        // if the event pointer button is not left, return
+        if (_eventData.button != PointerEventData.InputButton.Left)
+            return;
+        
         GameManager.Instance.ApplyCard(cardStatType, value);
     }
 }

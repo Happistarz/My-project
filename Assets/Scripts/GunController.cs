@@ -1,10 +1,16 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GunController : MonoBehaviour
 {
-    private int _ammo = 10;
+    [SerializeField] private GameObject           bulletPrefab;
+    [SerializeField] private Transform            bulletSpawnPoint;
+    [SerializeField] private InputActionReference shootAction;
+
+    [SerializeField] private TMP_Text ammoText;
+    private                  int      _ammo = 10;
 
     private int Ammo
     {
@@ -15,28 +21,34 @@ public class GunController : MonoBehaviour
             UpdateAmmo();
         }
     }
-    private bool _isReloading = false;
 
-    [SerializeField] private GameObject gun;
-    [SerializeField] private TMP_Text   ammoText;
+    private bool _isReloading;
+    private float _fireTime;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         UpdateAmmo();
+
+        shootAction.action.Enable();
+    }
+    
+    private void Update()
+    {
+        if (!shootAction.action.IsPressed() || !(Time.time >= _fireTime)) return;
+        
+        _fireTime = Time.time + GameManager.Instance.fireRate;
+        Shoot();
     }
 
-    public void Shoot()
+    private void Shoot()
     {
         if (_ammo <= 0 || _isReloading) return;
 
         Ammo--;
-        
-        var ray = new Ray(transform.position, transform.forward);
-        if (Physics.Raycast(ray, out var hit, 45f) && hit.transform.CompareTag(Constants.ENEMY_TAG))
-        {
-            hit.transform.GetComponent<HealthManager>().TakeDamage(GameManager.Instance.DamageToEnemy);
-        }
+
+        var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        bullet.GetComponent<Rigidbody>().linearVelocity = bulletSpawnPoint.forward * BulletController.Speed;
 
         if (_ammo <= 0)
         {
@@ -48,7 +60,7 @@ public class GunController : MonoBehaviour
     {
         _isReloading = true;
         yield return new WaitForSeconds(GameManager.Instance.ReloadTime);
-        Ammo        = 10;
+        Ammo         = 10;
         _isReloading = false;
     }
 

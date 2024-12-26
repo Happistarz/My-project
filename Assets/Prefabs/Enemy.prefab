@@ -95,8 +95,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3230487087730587499}
-  - component: {fileID: 2782589965700841999}
   - component: {fileID: 416033419390265725}
+  - component: {fileID: 2782589965700841999}
   - component: {fileID: 8742147411658817041}
   m_Layer: 7
   m_Name: Enemy
@@ -121,19 +121,6 @@ Transform:
   - {fileID: 6419686892400432160}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2782589965700841999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4255283719823041612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d46bb348717b9b840bc12e07fdb90a71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!65 &416033419390265725
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -155,6 +142,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2782589965700841999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4255283719823041612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46bb348717b9b840bc12e07fdb90a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beacon: {fileID: 0}
+  healthManager: {fileID: 8742147411658817041}
 --- !u!114 &8742147411658817041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,5 +168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83af1bcfd8ee2a545ac6caba287870c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBarPrefab: {fileID: 6260022599876283476, guid: c5f790b8b9e1df54f96c1c0f7e884e56, type: 3}
+  health: 100
+  healthBarPrefab: {fileID: 3841841868292775471, guid: c5f790b8b9e1df54f96c1c0f7e884e56, type: 3}
   offset: {x: 0, y: 1.5, z: 0}
