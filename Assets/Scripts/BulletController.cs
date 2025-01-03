@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    public const             float Speed    = 30.0f;
+    public const float SPEED = 30.0f;
+
     [SerializeField] private float lifeTime = 3.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,7 +20,7 @@ public class BulletController : MonoBehaviour
             return;
         }
 
-        _other.gameObject.GetComponent<HealthManager>().TakeDamage(GameManager.Instance.DamageToEnemy);
+        _other.gameObject.GetComponent<HealthManager>().TakeDamage((int)GameManager.Instance.DamageToEnemy);
         Destroy(gameObject);
     }
 }

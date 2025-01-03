@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BeaconPowerAnimation : MonoBehaviour
 {
@@ -40,16 +39,17 @@ public class BeaconPowerAnimation : MonoBehaviour
         material.color = startColor;
     }
 
-    private void OnEnable()
+    public void StartAnimation()
     {
         StartCoroutine(Animate(3.5f, 7.0f));
+        gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider _other)
     {
         if (_other.gameObject.CompareTag(Constants.ENEMY_TAG))
         {
-            _other.gameObject.GetComponent<HealthManager>().TakeDamage(15f);
+            _other.gameObject.GetComponent<HealthManager>().TakeDamage(15);
         }
     }
 }

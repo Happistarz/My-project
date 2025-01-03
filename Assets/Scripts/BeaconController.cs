@@ -16,7 +16,7 @@ public class BeaconController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        healthManager.OnDeath += OnDeath;
+        healthManager.InitializeHealthBar(healthManager.initialHealth, "Beacon", OnDeath);
 
         beaconPowerAction.action.Enable();
     }
@@ -40,15 +40,16 @@ public class BeaconController : MonoBehaviour
 
     private void OnDeath()
     {
+        // TODO: Implement game over logic
         Debug.Log("Beacon destroyed");
     }
 
     private void BeaconPower()
     {
-        healthManager.TakeDamage(15f);
+        healthManager.TakeDamage(15);
         beaconPowerImage.color = Color.white;
 
-        beaconPowerAnimation.gameObject.SetActive(true);
+        beaconPowerAnimation.StartAnimation();
     }
     
     private void UpdateBeaconPowerImage()

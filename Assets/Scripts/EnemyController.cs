@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class EnemyController : MonoBehaviour
 {
@@ -14,20 +13,18 @@ public class EnemyController : MonoBehaviour
 
     public EnemyTypes EnemyProperties;
 
-    [SerializeField] public Transform beacon;
+    public Transform beacon;
 
-    [SerializeField] private const float AttackRange = 3.0f;
+    private const float _ATTACK_RANGE = 3.0f;
 
-    private float _attackTimer = 0.0f;
+    private float _attackTimer;
 
     [SerializeField] private HealthManager healthManager;
 
     // Update is called once per frame
     private void Start()
     {
-        healthManager.SetInitialHealth(EnemyProperties.Health);
-
-        healthManager.OnDeath += OnDeath;
+        healthManager.InitializeHealthBar(EnemyProperties.Health, EnemyProperties.Type.ToString(), OnDeath);
     }
 
     private void Update()
@@ -36,7 +33,7 @@ public class EnemyController : MonoBehaviour
 
         var distance = Vector3.Distance(beacon.position, transform.position);
 
-        if (distance > AttackRange)
+        if (distance > _ATTACK_RANGE)
             MoveToBeacon();
         else
             Attack();
@@ -60,7 +57,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnDeath()
     {
+        GameManager.Instance.EnemyWaveController.EnemyDied();
         Destroy(gameObject);
-        Destroy(healthManager.gameObject);
     }
 }

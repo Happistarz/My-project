@@ -1,6 +1,6 @@
 public abstract class EnemyTypes
 {
-    public abstract int                       Health       { get; }
+    public abstract float                     Health       { get; }
     public abstract EnemyController.EnemyType Type         { get; }
     public abstract int                       AttackDamage { get; }
     public abstract float                     AttackSpeed  { get; }
@@ -14,8 +14,8 @@ public abstract class EnemyTypes
 
 public class NormalEnemy : EnemyTypes
 {
-    public override int   Health       => 10;
-    
+    public override float Health => 10;
+
     public override EnemyController.EnemyType Type => EnemyController.EnemyType.NORMAL;
 
     public override int   AttackDamage => 5;
@@ -25,8 +25,8 @@ public class NormalEnemy : EnemyTypes
 
 public class FastEnemy : EnemyTypes
 {
-    public override int   Health       => 5;
-    
+    public override float Health => 5;
+
     public override EnemyController.EnemyType Type => EnemyController.EnemyType.FAST;
 
     public override int   AttackDamage => 2;
@@ -36,8 +36,8 @@ public class FastEnemy : EnemyTypes
 
 public class TankEnemy : EnemyTypes
 {
-    public override int   Health       => 20;
-    
+    public override float Health => 20;
+
     public override EnemyController.EnemyType Type => EnemyController.EnemyType.TANK;
 
     public override int   AttackDamage => 10;
@@ -47,8 +47,8 @@ public class TankEnemy : EnemyTypes
 
 public class DaggerEnemy : EnemyTypes
 {
-    public override int   Health       => 5;
-    
+    public override float Health => 5;
+
     public override EnemyController.EnemyType Type => EnemyController.EnemyType.DAGGER;
 
     public override int   AttackDamage => 1;

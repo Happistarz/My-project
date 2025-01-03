@@ -1,15 +1,12 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class HealthManager : MonoBehaviour
 {
-    [SerializeField] public float health = 100.0f;
+    [SerializeField] public float initialHealth = 100;
 
     [SerializeField] private GameObject healthBarPrefab;
 
     private Canvas _canvas;
-    private Camera _mainCamera;
 
     public delegate void OnDeathEvent();
 
@@ -17,56 +14,35 @@ public class HealthManager : MonoBehaviour
 
     public Vector3 offset = new(0, 1, 0);
 
-    private RectTransform _healthBar;
-
-    private RectTransform _healthRect;
-    private TMP_Text      _healthText;
-
-    private float _maxHealth;
-
-    // Start is called before the first frame update
+    private HealthController _healthController;
+    
     private void Awake()
     {
-        _mainCamera = Camera.main;
-        _canvas     = FindFirstObjectByType<Canvas>();
-
-        _healthBar  = Instantiate(healthBarPrefab, _canvas.transform).GetComponent<RectTransform>();
-        _healthRect = _healthBar.Find("Health").GetComponent<RectTransform>();
-        _healthText = _healthBar.Find("Text").GetComponent<TMP_Text>();
-
-        SetInitialHealth(health);
+        _canvas = FindFirstObjectByType<Canvas>();
     }
 
-    // Update is called once per frame
-    private void LateUpdate()
+    public void InitializeHealthBar(float _health, string _title, OnDeathEvent _onDeathCallback)
     {
-        var screenPos = _mainCamera.WorldToScreenPoint(transform.position + offset);
-        _healthBar.position = screenPos;
-        _healthBar.gameObject.SetActive(screenPos.z > 0);
+        if (_canvas == null) return;
+
+        _healthController = Instantiate(healthBarPrefab, _canvas.transform).GetComponent<HealthController>();
+        _healthController.InitHealthBar(_health, _title, offset, transform);
+
+        initialHealth = _health;
+        
+        OnDeath += _onDeathCallback;
     }
 
-    public void TakeDamage(float _damage)
+    public void TakeDamage(int _damage)
     {
+        var health = _healthController.GetHealth();
         health -= _damage;
         if (health <= 0)
         {
-            Destroy(_healthBar.gameObject);
+            Destroy(_healthController.gameObject);
             OnDeath?.Invoke();
         }
 
-        UpdateHealthUI();
-    }
-
-    private void UpdateHealthUI()
-    {
-        _healthRect.localScale = new Vector3(health / _maxHealth, _healthRect.localScale.y, _healthRect.localScale.z);
-        _healthText.text       = $"{health:0.0}";
-    }
-
-    public void SetInitialHealth(float _health)
-    {
-        health     = _health;
-        _maxHealth = _health;
-        UpdateHealthUI();
+        _healthController.SetHealth(health);
     }
 }

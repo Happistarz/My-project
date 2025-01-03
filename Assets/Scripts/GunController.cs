@@ -48,7 +48,7 @@ public class GunController : MonoBehaviour
         Ammo--;
 
         var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        bullet.GetComponent<Rigidbody>().linearVelocity = bulletSpawnPoint.forward * BulletController.Speed;
+        bullet.GetComponent<Rigidbody>().linearVelocity = bulletSpawnPoint.forward * BulletController.SPEED;
 
         if (_ammo <= 0)
         {

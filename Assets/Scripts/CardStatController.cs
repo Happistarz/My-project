@@ -1,9 +1,7 @@
 using System;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class CardStatController : MonoBehaviour, IPointerClickHandler
@@ -57,6 +55,8 @@ public class CardStatController : MonoBehaviour, IPointerClickHandler
                 titleText.text   = "Beacon";
                 iconImage.sprite = Resources.Load<Sprite>(Constants.BEACON_ICON);
                 break;
+            
+            case CardStatType.LENGTH:
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -78,6 +78,6 @@ public class CardStatController : MonoBehaviour, IPointerClickHandler
         if (_eventData.button != PointerEventData.InputButton.Left)
             return;
         
-        GameManager.Instance.ApplyCard(cardStatType, value);
+        GameManager.Instance.EnemyWaveController.ApplyCard(cardStatType, value);
     }
 }

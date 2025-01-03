@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class CameraPlayerFollow : MonoBehaviour
 {
@@ -9,7 +8,7 @@ public class CameraPlayerFollow : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private float     sensitivity = 0.1f;
 
-    private float _pitch = 0;
+    private float _pitch;
 
     private void Start()
     {
@@ -19,6 +18,8 @@ public class CameraPlayerFollow : MonoBehaviour
     // LateUpdate is called once per frame after all Update functions have been called
     private void LateUpdate()
     {
+        if (Time.timeScale == 0) return; // The game is paused, don't update the camera
+        
         var look = lookAction.action.ReadValue<Vector2>();
 
         var yaw   = look.x * sensitivity;

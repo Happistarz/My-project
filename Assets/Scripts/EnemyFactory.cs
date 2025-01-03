@@ -10,8 +10,8 @@ public class EnemyFactory : MonoBehaviour
         var enemy      = Instantiate(enemyPrefab, _position, Quaternion.identity);
         var controller = enemy.GetComponent<EnemyController>();
         controller.beacon = beacon;
-        
-        var type = (EnemyController.EnemyType) Random.Range(0, (int) EnemyController.EnemyType.LENGTH);
+
+        var type = (EnemyController.EnemyType)Random.Range(0, (int)EnemyController.EnemyType.LENGTH);
         controller.EnemyProperties = type switch
         {
             EnemyController.EnemyType.NORMAL => new NormalEnemy(),
@@ -20,7 +20,5 @@ public class EnemyFactory : MonoBehaviour
             EnemyController.EnemyType.DAGGER => new DaggerEnemy(),
             _                                => controller.EnemyProperties
         };
-        
-        Debug.Log($"Spawned {type} enemy");
     }
 }
