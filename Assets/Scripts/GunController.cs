@@ -10,7 +10,8 @@ public class GunController : MonoBehaviour
     [SerializeField] private InputActionReference shootAction;
 
     [SerializeField] private TMP_Text ammoText;
-    private                  int      _ammo = 10;
+
+    private int _ammo = 10;
 
     private int Ammo
     {
@@ -22,7 +23,7 @@ public class GunController : MonoBehaviour
         }
     }
 
-    private bool _isReloading;
+    private bool  _isReloading;
     private float _fireTime;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,11 +33,11 @@ public class GunController : MonoBehaviour
 
         shootAction.action.Enable();
     }
-    
+
     private void Update()
     {
         if (!shootAction.action.IsPressed() || !(Time.time >= _fireTime)) return;
-        
+
         _fireTime = Time.time + GameManager.Instance.fireRate;
         Shoot();
     }

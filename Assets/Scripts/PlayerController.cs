@@ -1,35 +1,47 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private InputActionReference movementAction;
-    [SerializeField] private InputActionReference boostAction;
-    
-    [SerializeField] private GunController gunController;
+    [SerializeField] private Transform cameraTransform;
 
     private Rigidbody _rigidbody;
 
     private float _pitch;
     private float _boostSpeed;
-    
+
+    private Vector2 _movement;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-
-        movementAction.action.Enable();
-        boostAction.action.Enable();
-
-        boostAction.action.performed += _ => _boostSpeed = GameManager.Instance.BoostSpeed;
-        boostAction.action.canceled  += _ => _boostSpeed = 0.0f;
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
-        var movement = movementAction.action.ReadValue<Vector2>();
-        var forward  = transform.forward * movement.y;
-        var side     = transform.right   * movement.x;
-        _rigidbody.linearVelocity = (forward + side).normalized * (GameManager.Instance.movementSpeed + _boostSpeed);
+        var move =
+            cameraTransform.forward * _movement.y
+            + cameraTransform.right * _movement.x;
+        move.y = 0;
+        
+        _rigidbody.AddForce(move.normalized *
+                            (GameManager.Instance.movementSpeed + _boostSpeed),
+                            ForceMode.VelocityChange);
+    }
+
+    public void OnMove(InputAction.CallbackContext _context)
+    {
+        _movement = _context.ReadValue<Vector2>();
+    }
+
+    public void OnBoost(InputAction.CallbackContext _context)
+    {
+        if (_context.performed)
+            _boostSpeed = GameManager.Instance.BoostSpeed;
+        else if (_context.canceled)
+            _boostSpeed = 0.0f;
     }
 }

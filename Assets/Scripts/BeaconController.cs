@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class BeaconController : MonoBehaviour
 {
     [SerializeField] private HealthManager        healthManager;
-    [SerializeField] private InputActionReference beaconPowerAction;
     [SerializeField] private float                beaconPowerCooldown = 10.0f;
     [SerializeField] private BeaconPowerAnimation beaconPowerAnimation;
 
@@ -18,12 +17,24 @@ public class BeaconController : MonoBehaviour
     {
         healthManager.InitializeHealthBar(healthManager.initialHealth, "Beacon", OnDeath);
 
-        beaconPowerAction.action.Enable();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        // _beaconPowerTimer += Time.deltaTime;
+        // _beaconPowerTimer = Mathf.Clamp(_beaconPowerTimer, 0.0f, beaconPowerCooldown);
+        // UpdateBeaconPowerImage();
+        //
+        // if (_beaconPowerTimer >= beaconPowerCooldown)
+        // {
+        //     beaconPowerImage.color = Color.green;
+        // }
+        //
+        // if (!beaconPowerAction.action.IsPressed() || !(_beaconPowerTimer >= beaconPowerCooldown)) return;
+        // _beaconPowerTimer = 0.0f;
+        // BeaconPower();
+        
         _beaconPowerTimer += Time.deltaTime;
         _beaconPowerTimer = Mathf.Clamp(_beaconPowerTimer, 0.0f, beaconPowerCooldown);
         UpdateBeaconPowerImage();
@@ -32,10 +43,6 @@ public class BeaconController : MonoBehaviour
         {
             beaconPowerImage.color = Color.green;
         }
-        
-        if (!beaconPowerAction.action.IsPressed() || !(_beaconPowerTimer >= beaconPowerCooldown)) return;
-        _beaconPowerTimer = 0.0f;
-        BeaconPower();
     }
 
     private void OnDeath()
@@ -55,5 +62,13 @@ public class BeaconController : MonoBehaviour
     private void UpdateBeaconPowerImage()
     {
         beaconPowerImage.transform.localScale = new Vector3(_beaconPowerTimer / beaconPowerCooldown, 1, 1);
+    }
+    
+    public void OnBeaconPower(InputAction.CallbackContext _context)
+    {
+        if (!_context.performed || !(_beaconPowerTimer >= beaconPowerCooldown)) return;
+        
+        BeaconPower();
+        _beaconPowerTimer = 0.0f;
     }
 }

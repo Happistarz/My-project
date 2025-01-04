@@ -2,10 +2,11 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyWaveController))]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    
+
     private void Awake()
     {
         if (Instance == null)
@@ -35,13 +36,13 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] public float fireRate = 0.6f;
 
-    [SerializeField] public float movementSpeed = 5.0f;
+    [SerializeField] public float movementSpeed = 1.0f;
 
     [SerializeField] public float beaconOverload = 0.1f;
 
     public float ReloadTime { get; private set; } = 1.0f;
     public float BoostSpeed { get; private set; } = 5.0f;
-    public float Damage     { get; }              = 10.0f;
+    public float Damage     { get; private set; } = 10.0f;
 
     public float DamageToEnemy
     {
@@ -63,7 +64,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         EnemyWaveController = GetComponent<EnemyWaveController>();
-        
+
         StartCoroutine(Timer());
 
         SetCursor(false);

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshRenderer))]
 public class BeaconPowerAnimation : MonoBehaviour
 {
     [SerializeField] private AnimationCurve animationCurve;
@@ -41,8 +42,8 @@ public class BeaconPowerAnimation : MonoBehaviour
 
     public void StartAnimation()
     {
-        StartCoroutine(Animate(3.5f, 7.0f));
         gameObject.SetActive(true);
+        StartCoroutine(Animate(3.5f, 7.0f));
     }
 
     private void OnTriggerEnter(Collider _other)
