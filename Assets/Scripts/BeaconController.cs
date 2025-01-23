@@ -22,19 +22,6 @@ public class BeaconController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // _beaconPowerTimer += Time.deltaTime;
-        // _beaconPowerTimer = Mathf.Clamp(_beaconPowerTimer, 0.0f, beaconPowerCooldown);
-        // UpdateBeaconPowerImage();
-        //
-        // if (_beaconPowerTimer >= beaconPowerCooldown)
-        // {
-        //     beaconPowerImage.color = Color.green;
-        // }
-        //
-        // if (!beaconPowerAction.action.IsPressed() || !(_beaconPowerTimer >= beaconPowerCooldown)) return;
-        // _beaconPowerTimer = 0.0f;
-        // BeaconPower();
-        
         _beaconPowerTimer += Time.deltaTime;
         _beaconPowerTimer = Mathf.Clamp(_beaconPowerTimer, 0.0f, beaconPowerCooldown);
         UpdateBeaconPowerImage();
@@ -45,10 +32,10 @@ public class BeaconController : MonoBehaviour
         }
     }
 
-    private void OnDeath()
+    private static void OnDeath()
     {
-        // TODO: Implement game over logic
-        Debug.Log("Beacon destroyed");
+        GameManager.SetCursor(true);
+        Time.timeScale = 0;
     }
 
     private void BeaconPower()

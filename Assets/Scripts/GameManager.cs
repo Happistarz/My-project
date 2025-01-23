@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(EnemyWaveController))]
 public class GameManager : MonoBehaviour
@@ -26,9 +27,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] cards;
 
     [SerializeField] private TMP_Text timerText;
+    
+    [SerializeField] private InputActionReference escapeAction;
 
-
-    private const int _GAME_DURATION = 20 * 60; // 20 minutes
+    private const int _GAME_DURATION = 10 * 60; // 10 mins
     private       int GameTime { get; set; }
 
     [Header("Player Stats")] [SerializeField]
@@ -38,11 +40,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] public float movementSpeed = 1.0f;
 
-    [SerializeField] public float beaconOverload = 0.1f;
-
-    public float ReloadTime { get; private set; } = 1.0f;
-    public float BoostSpeed { get; private set; } = 5.0f;
-    public float Damage     { get; private set; } = 10.0f;
+    public  float ReloadTime { get; private set; } = 1.0f;
+    public  float BoostSpeed { get; private set; } = 0.5f;
+    private float Damage     { get; set; }         = 10.0f;
 
     public float DamageToEnemy
     {
@@ -68,6 +68,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(Timer());
 
         SetCursor(false);
+        
+        escapeAction.action.Enable();
+        escapeAction.action.performed += _ => OnEscape();
     }
 
     private IEnumerator Timer()
@@ -84,6 +87,11 @@ public class GameManager : MonoBehaviour
     public static void SetCursor(bool _visible)
     {
         Cursor.visible   = _visible;
-        Cursor.lockState = _visible ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    private static void OnEscape()
+    {
+        Application.Quit();
     }
 }

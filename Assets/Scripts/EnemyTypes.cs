@@ -1,10 +1,10 @@
 public abstract class EnemyTypes
 {
-    public abstract float                     Health       { get; }
-    public abstract EnemyController.EnemyType Type         { get; }
-    public abstract int                       AttackDamage { get; }
-    public abstract float                     AttackSpeed  { get; }
-    public abstract float                     Speed        { get; }
+    public abstract    float                     Health       { get; }
+    public abstract    EnemyController.EnemyType Type         { get; }
+    protected abstract int                       AttackDamage { get; }
+    public abstract    float                     AttackSpeed  { get; }
+    public abstract    float                     Speed        { get; }
 
     public virtual void Attack(HealthManager _healthManager)
     {
@@ -14,13 +14,13 @@ public abstract class EnemyTypes
 
 public class NormalEnemy : EnemyTypes
 {
-    public override float Health => 10;
+    public override float Health => 12;
 
     public override EnemyController.EnemyType Type => EnemyController.EnemyType.NORMAL;
 
-    public override int   AttackDamage => 5;
-    public override float AttackSpeed  => 1.0f;
-    public override float Speed        => 2.0f;
+    protected override int   AttackDamage => 5;
+    public override    float AttackSpeed  => 1.0f;
+    public override    float Speed        => 2.0f;
 }
 
 public class FastEnemy : EnemyTypes
@@ -29,9 +29,9 @@ public class FastEnemy : EnemyTypes
 
     public override EnemyController.EnemyType Type => EnemyController.EnemyType.FAST;
 
-    public override int   AttackDamage => 2;
-    public override float AttackSpeed  => 1.0f;
-    public override float Speed        => 3.0f;
+    protected override int   AttackDamage => 2;
+    public override    float AttackSpeed  => 1.0f;
+    public override    float Speed        => 3.0f;
 }
 
 public class TankEnemy : EnemyTypes
@@ -40,9 +40,9 @@ public class TankEnemy : EnemyTypes
 
     public override EnemyController.EnemyType Type => EnemyController.EnemyType.TANK;
 
-    public override int   AttackDamage => 10;
-    public override float AttackSpeed  => 1.0f;
-    public override float Speed        => 1.0f;
+    protected override int   AttackDamage => 10;
+    public override    float AttackSpeed  => 1.0f;
+    public override    float Speed        => 1.5f;
 }
 
 public class DaggerEnemy : EnemyTypes
@@ -51,9 +51,9 @@ public class DaggerEnemy : EnemyTypes
 
     public override EnemyController.EnemyType Type => EnemyController.EnemyType.DAGGER;
 
-    public override int   AttackDamage => 1;
-    public override float AttackSpeed  => 1.0f;
-    public override float Speed        => 4.0f;
+    protected override int   AttackDamage => 1;
+    public override    float AttackSpeed  => 1.0f;
+    public override    float Speed        => 4.0f;
 
     private bool _isFirstAttack = true;
 
@@ -62,7 +62,7 @@ public class DaggerEnemy : EnemyTypes
         if (_isFirstAttack)
         {
             _isFirstAttack = false;
-            _healthManager.TakeDamage(AttackDamage * 3);
+            _healthManager.TakeDamage(15);
             return;
         }
 

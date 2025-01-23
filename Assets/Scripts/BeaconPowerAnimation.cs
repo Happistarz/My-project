@@ -43,7 +43,7 @@ public class BeaconPowerAnimation : MonoBehaviour
     public void StartAnimation()
     {
         gameObject.SetActive(true);
-        StartCoroutine(Animate(3.5f, 7.0f));
+        StartCoroutine(Animate(3f, 7.0f));
     }
 
     private void OnTriggerEnter(Collider _other)

@@ -65,7 +65,7 @@ public class CardStatController : MonoBehaviour, IPointerClickHandler
 
     private void SetStat(float _value)
     {
-        valueText.text = $"+{_value}%";
+        valueText.text = $"+{_value}";
         value = _value;
     }
 

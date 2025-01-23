@@ -5,9 +5,11 @@ using UnityEngine.InputSystem;
 
 public class GunController : MonoBehaviour
 {
+    private static readonly  int                  _SHOOT = Animator.StringToHash("Shoot");
     [SerializeField] private GameObject           bulletPrefab;
     [SerializeField] private Transform            bulletSpawnPoint;
     [SerializeField] private InputActionReference shootAction;
+    [SerializeField] private Animator             gunAnimator;
 
     [SerializeField] private TMP_Text ammoText;
 
@@ -50,6 +52,7 @@ public class GunController : MonoBehaviour
 
         var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         bullet.GetComponent<Rigidbody>().linearVelocity = bulletSpawnPoint.forward * BulletController.SPEED;
+        gunAnimator.Play("Gun");
 
         if (_ammo <= 0)
         {

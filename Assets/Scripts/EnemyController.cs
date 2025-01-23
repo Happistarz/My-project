@@ -27,7 +27,7 @@ public class EnemyController : MonoBehaviour
         healthManager.InitializeHealthBar(EnemyProperties.Health, EnemyProperties.Type.ToString(), OnDeath);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (beacon == null) return;
 
@@ -41,9 +41,12 @@ public class EnemyController : MonoBehaviour
 
     private void MoveToBeacon()
     {
+        // look at beacon and move towards it (not in the y-axis)
         var direction = beacon.position - transform.position;
         direction.y = 0;
-        transform.Translate(direction.normalized * (EnemyProperties.Speed * Time.deltaTime));
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), 0.1f);
+        
+        transform.Translate(0, 0, EnemyProperties.Speed * Time.deltaTime);
     }
 
     private void Attack()

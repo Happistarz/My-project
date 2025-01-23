@@ -23,10 +23,10 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         var move =
-            cameraTransform.forward * _movement.y
-            + cameraTransform.right * _movement.x;
+            transform.forward * _movement.y
+            + transform.right * _movement.x;
         move.y = 0;
-        
+
         _rigidbody.AddForce(move.normalized *
                             (GameManager.Instance.movementSpeed + _boostSpeed),
                             ForceMode.VelocityChange);
