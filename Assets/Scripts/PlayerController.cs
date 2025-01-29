@@ -4,7 +4,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    private static readonly  int       _SPEED = Animator.StringToHash("Speed");
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Animator  animator;
 
     private Rigidbody _rigidbody;
 
@@ -35,6 +37,8 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext _context)
     {
         _movement = _context.ReadValue<Vector2>();
+        
+        animator.SetFloat(_SPEED, _movement.magnitude);
     }
 
     public void OnBoost(InputAction.CallbackContext _context)

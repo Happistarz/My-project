@@ -60,7 +60,8 @@ public class EnemyController : MonoBehaviour
 
     private void OnDeath()
     {
-        GameManager.Instance.EnemyWaveController.EnemyDied();
+        EnemyWaveController.Instance.EnemyDied();
+        GameManager.Instance.Score += EnemyProperties.Score;
         Destroy(gameObject);
     }
 }

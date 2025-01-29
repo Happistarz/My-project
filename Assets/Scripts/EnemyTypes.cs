@@ -5,6 +5,7 @@ public abstract class EnemyTypes
     protected abstract int                       AttackDamage { get; }
     public abstract    float                     AttackSpeed  { get; }
     public abstract    float                     Speed        { get; }
+    public abstract    int                       Score        { get; }
 
     public virtual void Attack(HealthManager _healthManager)
     {
@@ -21,6 +22,7 @@ public class NormalEnemy : EnemyTypes
     protected override int   AttackDamage => 5;
     public override    float AttackSpeed  => 1.0f;
     public override    float Speed        => 2.0f;
+    public override    int   Score        => 10;
 }
 
 public class FastEnemy : EnemyTypes
@@ -32,6 +34,7 @@ public class FastEnemy : EnemyTypes
     protected override int   AttackDamage => 2;
     public override    float AttackSpeed  => 1.0f;
     public override    float Speed        => 3.0f;
+    public override    int   Score        => 5;
 }
 
 public class TankEnemy : EnemyTypes
@@ -43,6 +46,7 @@ public class TankEnemy : EnemyTypes
     protected override int   AttackDamage => 10;
     public override    float AttackSpeed  => 1.0f;
     public override    float Speed        => 1.5f;
+    public override    int   Score        => 20;
 }
 
 public class DaggerEnemy : EnemyTypes
@@ -54,6 +58,7 @@ public class DaggerEnemy : EnemyTypes
     protected override int   AttackDamage => 1;
     public override    float AttackSpeed  => 1.0f;
     public override    float Speed        => 4.0f;
+    public override    int   Score        => 5;
 
     private bool _isFirstAttack = true;
 

@@ -10,6 +10,7 @@ public class GunController : MonoBehaviour
     [SerializeField] private Transform            bulletSpawnPoint;
     [SerializeField] private InputActionReference shootAction;
     [SerializeField] private Animator             gunAnimator;
+    [SerializeField] private AudioSource          gunAudioSource;
 
     [SerializeField] private TMP_Text ammoText;
 
@@ -71,5 +72,10 @@ public class GunController : MonoBehaviour
     private void UpdateAmmo()
     {
         ammoText.text = _ammo.ToString();
+    }
+    
+    public void PlayGunSound()
+    {
+        gunAudioSource.Play();
     }
 }

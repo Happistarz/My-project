@@ -13,12 +13,18 @@ public class CameraPlayerFollow : MonoBehaviour
 
         var mouseScreenPos = Input.mousePosition;
 
-        var ray = camera.ScreenPointToRay(mouseScreenPos);
-        if (!Physics.Raycast(ray, out var hit)) return;
+        try
+        {
+            var ray = camera.ScreenPointToRay(mouseScreenPos);
+            if (!Physics.Raycast(ray, out var hit)) return;
 
-        var dir = hit.point - playerBody.position;
-        dir.y = 0;
+            var dir = hit.point - playerBody.position;
+            dir.y = 0;
 
-        playerBody.rotation = Quaternion.LookRotation(dir);
+            playerBody.rotation = Quaternion.LookRotation(dir);
+        } catch
+        {
+            // ignored
+        }
     }
 }

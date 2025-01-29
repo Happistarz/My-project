@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BeaconController : MonoBehaviour
@@ -16,7 +17,6 @@ public class BeaconController : MonoBehaviour
     private void Start()
     {
         healthManager.InitializeHealthBar(healthManager.initialHealth, "Beacon", OnDeath);
-
     }
 
     // Update is called once per frame
@@ -35,12 +35,12 @@ public class BeaconController : MonoBehaviour
     private static void OnDeath()
     {
         GameManager.SetCursor(true);
-        Time.timeScale = 0;
+        SceneManager.LoadScene("GameOver");
     }
 
     private void BeaconPower()
     {
-        healthManager.TakeDamage(15);
+        healthManager.TakeDamage(10);
         beaconPowerImage.color = Color.white;
 
         beaconPowerAnimation.StartAnimation();
@@ -48,7 +48,8 @@ public class BeaconController : MonoBehaviour
     
     private void UpdateBeaconPowerImage()
     {
-        beaconPowerImage.transform.localScale = new Vector3(_beaconPowerTimer / beaconPowerCooldown, 1, 1);
+        // beaconPowerImage.transform.localScale = new Vector3(_beaconPowerTimer / beaconPowerCooldown, 1, 1);
+        beaconPowerImage.fillAmount = _beaconPowerTimer / beaconPowerCooldown;
     }
     
     public void OnBeaconPower(InputAction.CallbackContext _context)

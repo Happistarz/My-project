@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CursorFollow : MonoBehaviour
@@ -9,15 +10,19 @@ public class CursorFollow : MonoBehaviour
     {
         if (Time.timeScale == 0) return; // The game is paused, don't update the cursor
 
-        Vector2 pos;
+        try
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                parentCanvas.GetComponent<RectTransform>(),
+                Input.mousePosition,
+                parentCanvas.worldCamera,
+                out var pos
+            );
 
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            parentCanvas.GetComponent<RectTransform>(),
-            Input.mousePosition,
-            parentCanvas.worldCamera,
-            out pos
-        );
-
-        transform.position = parentCanvas.transform.TransformPoint(pos);
+            transform.position = parentCanvas.transform.TransformPoint(pos);
+        } catch (Exception e)
+        {
+            Debug.LogWarning(e);
+        }
     }
 }

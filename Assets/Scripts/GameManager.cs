@@ -2,8 +2,9 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
-[RequireComponent(typeof(EnemyWaveController))]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -27,14 +28,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] cards;
 
     [SerializeField] private TMP_Text timerText;
-    
+
     [SerializeField] private InputActionReference escapeAction;
 
-    private const int _GAME_DURATION = 10 * 60; // 10 mins
+    private const int _GAME_DURATION = 10 * 60;
     private       int GameTime { get; set; }
 
-    [Header("Player Stats")] [SerializeField]
-    public float criticalChance = 0.1f;
+    [Header("Player Stats")]
+    [SerializeField] public float criticalChance = 0.1f;
 
     [SerializeField] public float fireRate = 0.6f;
 
@@ -58,17 +59,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public EnemyWaveController EnemyWaveController { get; private set; }
+    [SerializeField] private EnemyWaveController enemyWaveController;
+
+    public int Score { get; set; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        EnemyWaveController = GetComponent<EnemyWaveController>();
+        DontDestroyOnLoad(gameObject);
 
         StartCoroutine(Timer());
 
         SetCursor(false);
-        
+
         escapeAction.action.Enable();
         escapeAction.action.performed += _ => OnEscape();
     }
@@ -82,6 +85,8 @@ public class GameManager : MonoBehaviour
             timerText.text = $"{GameTime / 60:00}:{GameTime % 60:00}";
             yield return wait;
         }
+
+        SceneManager.LoadScene("GameOver");
     }
 
     public static void SetCursor(bool _visible)

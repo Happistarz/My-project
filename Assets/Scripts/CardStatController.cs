@@ -79,6 +79,6 @@ public class CardStatController : MonoBehaviour, IPointerClickHandler
         if (_eventData.button != PointerEventData.InputButton.Left)
             return;
         
-        GameManager.Instance.EnemyWaveController.ApplyCard(cardStatType, value);
+        EnemyWaveController.Instance.ApplyCard(cardStatType, value);
     }
 }

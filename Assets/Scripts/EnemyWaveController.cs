@@ -3,6 +3,20 @@ using UnityEngine;
 
 public class EnemyWaveController : MonoBehaviour
 {
+    public static EnemyWaveController Instance { get; private set; }
+    
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
     [SerializeField] private EnemyFactory enemyFactory;
 
     [SerializeField] private CardStatController[] cards;
