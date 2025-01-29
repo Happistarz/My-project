@@ -13,5 +13,5 @@ Le joueur doit évoluer dans un monde en 3D et survivre à des vagues d'ennemis 
 - **Souris** : Contrôler la caméra
 - **Shift** : Courir
 - **Clic gauche** : Tirer
-- **B** : pouvoir spécial du beacon (marche pas)
+- **F** : pouvoir spécial du beacon à protéger
 - **Escape** : quitte le jeu
