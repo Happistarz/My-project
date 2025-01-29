@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,8 +26,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform  beacon;
 
-    [SerializeField] private GameObject[] cards;
-
     [SerializeField] private TMP_Text timerText;
 
     [SerializeField] private InputActionReference escapeAction;
@@ -43,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     public  float ReloadTime { get; private set; } = 1.0f;
     public  float BoostSpeed { get; private set; } = 0.5f;
-    private float Damage     { get; set; }         = 10.0f;
+    public float Damage     { get; set; }         = 10.0f;
 
     public float DamageToEnemy
     {
@@ -67,7 +66,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-
+        
         StartCoroutine(Timer());
 
         SetCursor(false);

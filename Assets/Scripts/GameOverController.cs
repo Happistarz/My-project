@@ -14,6 +14,7 @@ public class GameOverButtons : MonoBehaviour
     
     public void RestartGame()
     {
+        Debug.Log("Restarting game");
         Destroy(GameManager.Instance.gameObject);
         SceneManager.LoadScene("Main");
     }

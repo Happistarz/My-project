@@ -3,8 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class CameraPlayerFollow : MonoBehaviour
 {
-    [SerializeField] private     Transform playerBody;
-    [SerializeField] private new Camera    camera;
+    [SerializeField] private Transform playerBody;
+    [SerializeField] private Camera    camera;
 
     // LateUpdate is called once per frame after all Update functions have been called
     private void LateUpdate()
@@ -22,7 +22,8 @@ public class CameraPlayerFollow : MonoBehaviour
             dir.y = 0;
 
             playerBody.rotation = Quaternion.LookRotation(dir);
-        } catch
+        }
+        catch
         {
             // ignored
         }

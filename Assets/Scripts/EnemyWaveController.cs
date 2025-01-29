@@ -24,6 +24,7 @@ public class EnemyWaveController : MonoBehaviour
     [SerializeField] private Transform[] spawnPoints;
 
     [SerializeField] private float spawnArea = 5.0f;
+    [SerializeField] private AudioSource audioSource;
 
     private int _waveCount;
 
@@ -57,6 +58,8 @@ public class EnemyWaveController : MonoBehaviour
         {
             ShuffleCards();
         }
+        
+        audioSource.Play();
     }
 
     private void ShuffleCards()
@@ -101,5 +104,8 @@ public class EnemyWaveController : MonoBehaviour
         _waveCount = _waveSize;
         
         StartCoroutine(SpawnWave());
+        
+        enemyFactory.UpdateEnemiesStats();
+        GameManager.Instance.Damage += Constants.DAMAGE_MODIFIER;
     }
 }

@@ -6,9 +6,9 @@ public class BeaconPowerAnimation : MonoBehaviour
 {
     private static readonly int _START = Animator.StringToHash("Start");
 
-    [SerializeField] private     Animator       animator;
-    [SerializeField] private     AudioSource    audioSource;
-    [SerializeField] private new ParticleSystem particleSystem;
+    [SerializeField] private Animator       animator;
+    [SerializeField] private AudioSource    audioSource;
+    [SerializeField] private ParticleSystem particleSystem;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()

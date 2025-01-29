@@ -1,11 +1,14 @@
+using System.Collections.Generic;
+
 public abstract class EnemyTypes
 {
-    public abstract    float                     Health       { get; }
-    public abstract    EnemyController.EnemyType Type         { get; }
-    protected abstract int                       AttackDamage { get; }
-    public abstract    float                     AttackSpeed  { get; }
-    public abstract    float                     Speed        { get; }
-    public abstract    int                       Score        { get; }
+    public abstract float                     Health       { get; set; }
+    public abstract EnemyController.EnemyType Type         { get; set; }
+    public abstract int                       AttackDamage { get; set; }
+    public abstract float                     AttackSpeed  { get; set; }
+    public abstract float                     Speed        { get; set; }
+    public abstract int                       Score        { get; set; }
+    public abstract Dictionary<string, float> Modifiers    { get; }
 
     public virtual void Attack(HealthManager _healthManager)
     {
@@ -15,50 +18,89 @@ public abstract class EnemyTypes
 
 public class NormalEnemy : EnemyTypes
 {
-    public override float Health => 12;
+    public sealed override EnemyController.EnemyType Type { get; set; } = EnemyController.EnemyType.NORMAL;
 
-    public override EnemyController.EnemyType Type => EnemyController.EnemyType.NORMAL;
+    public sealed override int Score { get; set; } = 10;
 
-    protected override int   AttackDamage => 5;
-    public override    float AttackSpeed  => 1.0f;
-    public override    float Speed        => 2.0f;
-    public override    int   Score        => 10;
+    public sealed override float Speed { get; set; } = 2.0f;
+
+    public sealed override float AttackSpeed { get; set; } = 1.0f;
+
+    public sealed override int AttackDamage { get; set; } = 5;
+
+    public sealed override float Health { get; set; } = 12;
+
+    public override Dictionary<string, float> Modifiers => new()
+    {
+        { "Health", 1.0f },
+        { "AttackDamage", 1.0f },
+        { "AttackSpeed", 1.0f },
+        { "Speed", 1.0f },
+        { "Score", 1.0f }
+    };
 }
 
 public class FastEnemy : EnemyTypes
 {
-    public override float Health => 5;
+    public sealed override float Health { get; set; } = 5;
 
-    public override EnemyController.EnemyType Type => EnemyController.EnemyType.FAST;
+    public sealed override EnemyController.EnemyType Type { get; set; } = EnemyController.EnemyType.FAST;
 
-    protected override int   AttackDamage => 2;
-    public override    float AttackSpeed  => 1.0f;
-    public override    float Speed        => 3.0f;
-    public override    int   Score        => 5;
+    public sealed override int   AttackDamage { get; set; } = 2;
+    public sealed override    float AttackSpeed  { get; set; } = 1.0f;
+    public sealed override    float Speed        { get; set; } = 3.0f;
+    public sealed override    int   Score        { get; set; } = 5;
+
+    public override Dictionary<string, float> Modifiers => new()
+    {
+        { "Health", 0.5f },
+        { "AttackDamage", 0.5f },
+        { "AttackSpeed", 1.0f },
+        { "Speed", 1.5f },
+        { "Score", 0.5f }
+    };
 }
 
 public class TankEnemy : EnemyTypes
 {
-    public override float Health => 20;
+    public sealed override float Health { get; set; } = 20;
 
-    public override EnemyController.EnemyType Type => EnemyController.EnemyType.TANK;
+    public sealed override EnemyController.EnemyType Type { get; set; } = EnemyController.EnemyType.TANK;
 
-    protected override int   AttackDamage => 10;
-    public override    float AttackSpeed  => 1.0f;
-    public override    float Speed        => 1.5f;
-    public override    int   Score        => 20;
+    public sealed override int   AttackDamage { get; set; } = 10;
+    public sealed override    float AttackSpeed  { get; set; } = 1.0f;
+    public sealed override    float Speed        { get; set; } = 1.5f;
+    public sealed override    int   Score        { get; set; } = 20;
+
+    public sealed override Dictionary<string, float> Modifiers => new()
+    {
+        { "Health", 1.5f },
+        { "AttackDamage", 2.0f },
+        { "AttackSpeed", 1.0f },
+        { "Speed", 0.75f },
+        { "Score", 2.0f }
+    };
 }
 
 public class DaggerEnemy : EnemyTypes
 {
-    public override float Health => 5;
+    public sealed override float Health { get; set; } = 5;
 
-    public override EnemyController.EnemyType Type => EnemyController.EnemyType.DAGGER;
+    public sealed override EnemyController.EnemyType Type { get; set; } = EnemyController.EnemyType.DAGGER;
 
-    protected override int   AttackDamage => 1;
-    public override    float AttackSpeed  => 1.0f;
-    public override    float Speed        => 4.0f;
-    public override    int   Score        => 5;
+    public sealed override int   AttackDamage { get; set; } = 1;
+    public sealed override    float AttackSpeed  { get; set; } = 1.0f;
+    public sealed override    float Speed        { get; set; } = 4.0f;
+    public sealed override    int   Score        { get; set; } = 5;
+
+    public override Dictionary<string, float> Modifiers => new()
+    {
+        { "Health", 0.5f },
+        { "AttackDamage", 0.2f },
+        { "AttackSpeed", 1.0f },
+        { "Speed", 2.0f },
+        { "Score", 0.5f }
+    };
 
     private bool _isFirstAttack = true;
 

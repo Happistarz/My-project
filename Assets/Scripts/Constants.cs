@@ -12,6 +12,7 @@ public class Constants : MonoBehaviour
     public static readonly Color BEACON_COLOR        = Color.blue;
 
     public const float CRITICAL_MULTIPLIER      = 2.0f;
+    public const float DAMAGE_MODIFIER          = 2.0f;
     
     public const float ENEMY_SPAWN_RATE          = 2.0f;
     public const int   ENEMY_WAVE_SIZE           = 10;
